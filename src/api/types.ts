@@ -1,12 +1,14 @@
+import { Status } from "./enums";
+
 export type Candidate = {
     id: number;
     name: string;
     email: string;
     birthDate: string;
-    yearOfExperience: string;
+    yearOfExperience: number;
     positionApplied: string;
     applicationDate: string;
-    status: string;
+    status: Status;
 }
 
 export type CandidatesResponse = {
