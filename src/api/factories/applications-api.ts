@@ -2,7 +2,7 @@ import apiClient from '../api';
 import { CandidatesResponse } from "../types";
 
 // Get data from api
-const getAll = async () => {
+const getAllCandidates = async () => {
     const response = await apiClient.get<CandidatesResponse>('/api/v1/candidates', {
         params: {
             limit: 10,
@@ -13,7 +13,7 @@ const getAll = async () => {
 };
 
 const ApplicationsAPI = {
-    getAll,
+    getAllCandidates,
 };
 
 export default ApplicationsAPI;
