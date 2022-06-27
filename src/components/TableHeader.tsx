@@ -1,18 +1,35 @@
-import React from 'react';
+import React  from 'react';
 import { css } from "@emotion/css";
+import { Column, SortKeys, SortOrder } from './types';
+import Cell from "./Cell";
+import { SortButton } from "./SortButton";
 
 type TableHeaderProps = {
-    children: React.ReactNode;
-    className?: string;
+    columns: Column[];
+    sortKey: SortKeys;
+    sortOrder: SortOrder;
+    handleChangeSort: (key: SortKeys) => void;
 }
 
-export function TableHeader({ children }: TableHeaderProps) {
+export function TableHeader({ columns, sortKey, sortOrder, handleChangeSort }: TableHeaderProps) {
     return (
         <div className={tableHeaderStyle}>
             <div className={tableHeaderRowStyle}>
-                <div className={tableHeaderRowCellStyle}>
-                    {children}
-                </div>
+                {columns.map((column) => {
+                    return (
+                        <div className={tableHeaderRowCellStyle}>
+                            <Cell>{column.label}</Cell>
+                            {column.sortable && (
+                                <SortButton
+                                    sortOrder={sortOrder}
+                                    sortKey={sortKey}
+                                    columnKey={column.key}
+                                    handleChangeSort={handleChangeSort}
+                                />
+                            )}
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
