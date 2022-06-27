@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from "@emotion/css";
 import Row from "./Row";
 import Cell from "./Cell";
 import { Candidate } from '../api/types';
 import { TableHeader } from "./TableHeader";
-import { CircularProgress } from "@mui/material";
+import { Pagination } from "./Pagination";
+
+const MAX_ITEMS_PER_PAGE = 10;
 
 type TableProps = {
     candidates: Candidate[];
-    isLoading: boolean;
 }
 
-export function Table({ candidates, isLoading }: TableProps) {
+export function Table({ candidates }: TableProps) {
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    if (!candidates) {
+        return null;
+    }
+
+    // Pagination: Get current candidates
+    const candidatesPerPage = MAX_ITEMS_PER_PAGE;
+    const indexOfLastCandidate = currentPage * candidatesPerPage;
+    const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage;
+    const currentCandidates = candidates ? candidates.slice(indexOfFirstCandidate, indexOfLastCandidate) : [];
+
+    // Method to change the current page
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    }
 
     const renderTableHeader = () => {
         return (
@@ -28,13 +45,6 @@ export function Table({ candidates, isLoading }: TableProps) {
     }
 
     const renderTableBody = () => {
-        if (isLoading) {
-            return (
-                <div className={loadingStyle}>
-                    <CircularProgress />
-                </div>
-            );
-        }
 
         if (candidates.length === 0) {
             return (
@@ -44,7 +54,7 @@ export function Table({ candidates, isLoading }: TableProps) {
 
         return (
             <div className={tableBodyStyle}>
-                {candidates?.map((candidate) => (
+                {currentCandidates?.map((candidate) => (
                     <Row candidate={candidate} />
                 ))}
             </div>
@@ -56,6 +66,12 @@ export function Table({ candidates, isLoading }: TableProps) {
         <div className={tableStyle}>
             {renderTableHeader()}
             {renderTableBody()}
+            <Pagination
+                candidatesPerPage={candidatesPerPage}
+                totalCandidates={candidates.length}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+            />
         </div>
     );
 }
@@ -72,16 +88,9 @@ const tableStyle = css`
 const tableBodyStyle = css`
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
-  overflow-x: auto;
-  padding: 0 5px;
+  padding: 0 2px;
   justify-content: flex-start;
   align-items: stretch;
 `;
 
-const loadingStyle = css`
-  display: flex;
-  justify-content: center;
-  margin-top: 60px;
-`;
 
