@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from "@emotion/css";
-import { Candidate } from '../api/types';
 import Cell from "./Cell";
+import { Candidate } from "./types";
 
 type RowProps = {
     candidate: Candidate;
