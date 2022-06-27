@@ -33,7 +33,7 @@ export function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance
 // The timeout is set to 10s.
 // If the request takes longer then the request will be aborted.
 const instance = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}`,
+    baseURL: `${process.env.REACT_APP_BASE_URL_DOMAIN}`,
     headers: {
         'Content-type': 'application/json',
     },
