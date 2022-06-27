@@ -1,15 +1,4 @@
-import { Status } from "./enums";
-
-export type Candidate = {
-    id: number;
-    name: string;
-    email: string;
-    birthDate: string;
-    yearOfExperience: number;
-    positionApplied: string;
-    applicationDate: string;
-    status: Status;
-}
+import { Candidate } from "../components/types";
 
 export type CandidatesResponse = {
     success: boolean;
