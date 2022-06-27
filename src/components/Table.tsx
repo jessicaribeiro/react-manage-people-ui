@@ -2,12 +2,20 @@ import React from 'react';
 import { css } from "@emotion/css";
 import Row from "./Row";
 import Cell from "./Cell";
+import { Candidate } from '../api/types';
+import { TableHeader } from "./TableHeader";
+import { CircularProgress } from "@mui/material";
 
-export function Table() {
+type TableProps = {
+    candidates: Candidate[];
+    isLoading: boolean;
+}
 
-    const renderHeaderRow = () => {
+export function Table({ candidates, isLoading }: TableProps) {
+
+    const renderTableHeader = () => {
         return (
-            <Row className={tableHeader}>
+            <TableHeader>
                 <Cell>Name</Cell>
                 <Cell>Email</Cell>
                 <Cell>Age</Cell>
@@ -15,34 +23,65 @@ export function Table() {
                 <Cell>Position applied</Cell>
                 <Cell>Applied</Cell>
                 <Cell>Status</Cell>
-            </Row>
+            </TableHeader>
         )
     }
 
+    const renderTableBody = () => {
+        if (isLoading) {
+            return (
+                <div className={loadingStyle}>
+                    <CircularProgress />
+                </div>
+            );
+        }
+
+        if (candidates.length === 0) {
+            return (
+                <span>No data to display</span>
+            );
+        }
+
+        return (
+            <div className={tableBodyStyle}>
+                {candidates?.map((candidate) => (
+                    <Row candidate={candidate} />
+                ))}
+            </div>
+        )
+
+    }
+
     return (
-        <div className={flexTableStyle}>
-            {renderHeaderRow()}
-            <Row>
-                <Cell>name</Cell>
-                <Cell>name@email</Cell>
-                <Cell>20</Cell>
-                <Cell>1</Cell>
-                <Cell>developer</Cell>
-                <Cell>01/01/2022</Cell>
-                <Cell>approved</Cell>
-            </Row>
+        <div className={tableStyle}>
+            {renderTableHeader()}
+            {renderTableBody()}
         </div>
     );
 }
 
 
-const flexTableStyle = css`
+const tableStyle = css`
   display: flex;
   flex-direction: column;
-  border: 1px solid;
-  width: 100%;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 `;
 
-const tableHeader = css`
-    border-bottom: 1px solid;
+const tableBodyStyle = css`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  padding: 0 5px;
+  justify-content: flex-start;
+  align-items: stretch;
 `;
+
+const loadingStyle = css`
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+`;
+

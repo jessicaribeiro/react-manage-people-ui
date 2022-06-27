@@ -6,13 +6,18 @@ import ApplicationsAPI from "./api/factories/applications-api";
 import { Candidate } from "./api/types";
 
 function App() {
-    const [applications, setApplications] = useState<Candidate[] | null>([]);
+    const [candidates, setCandidates] = useState<Candidate[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() =>{
+    useEffect(() => {
         const getApplications = async () => {
+            setIsLoading(true);
+
             let response = await ApplicationsAPI.getAll();
             let data = response.data;
-            setApplications(data);
+            setCandidates(data);
+
+            setIsLoading(false);
         };
 
         getApplications();
@@ -20,7 +25,7 @@ function App() {
 
     return (
         <Layout>
-            <ApplicationsTable />
+            <ApplicationsTable candidates={candidates} isLoading={isLoading} />
         </Layout>
     );
 }

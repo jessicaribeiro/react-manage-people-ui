@@ -16,10 +16,14 @@ function Cell({ children }: CellProps) {
 export default Cell;
 
 const cellStyle = css`
-  width: 100%;
-  border-right: 1px solid;
-
-  &:last-child {
-    border-right: none;
-  }
+  display: flex;
+  height: 46px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex: 1 1 40%;
 `;
