@@ -25,6 +25,5 @@ export function SortButton({ columnKey, handleChangeSort }: SortButtonProps) {
 const buttonStyle = css`
   background-color: transparent;
   border: none;
-  margin: 0;
   cursor: pointer;
 `;
