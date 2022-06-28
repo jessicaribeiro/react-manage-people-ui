@@ -1,18 +1,35 @@
 import React from 'react';
 import { css } from "@emotion/css";
-import Cell from "./Cell";
 import { Candidate } from "./types";
+import { Cell } from "./Cell";
+import moment from "moment";
 
 type RowProps = {
     candidate: Candidate;
 }
 
-function Row({ candidate }: RowProps) {
+export function Row({ candidate }: RowProps) {
     return (
         <div className={rowStyle}>
             {Object.entries(candidate).map(([key, value]) => {
                 if (key === "id") {
                     return null;
+                }
+
+                // Convert date given to years using moment
+                if (key === "birth_date") {
+                    const years = moment().diff(value, 'years',false);
+                    return <Cell key={key}>{years}</Cell>
+                }
+
+                // Format date to day/month/year
+                if (key === "application_date") {
+                    const date = moment(value).format('DD/MM/YYYY');
+                    return <Cell key={key}>{date}</Cell>
+                }
+
+                if (key === "status") {
+                    return <Cell className={capitalizeStyle} key={key}>{value}</Cell>
                 }
 
                 return (
@@ -24,8 +41,6 @@ function Row({ candidate }: RowProps) {
     );
 }
 
-export default Row;
-
 const rowStyle = css`
   display: flex;
   flex-direction: row;
@@ -33,9 +48,12 @@ const rowStyle = css`
   align-items: center;
   flex: 0 0 auto;
   border-bottom: 1px solid #eee;
-  cursor: pointer;
 
   &:hover {
     background: lightgray;
   }
+`;
+
+const capitalizeStyle = css`
+  text-transform: capitalize;
 `;
