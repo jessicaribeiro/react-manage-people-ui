@@ -1,7 +1,7 @@
-import React  from 'react';
+import React from 'react';
 import { css } from "@emotion/css";
-import { Column, SortKeys, SortOrder } from './types';
-import Cell from "./Cell";
+import { Column, SortKeys } from './types';
+import { Cell } from "./Cell";
 import { SortButton } from "./SortButton";
 
 type TableHeaderProps = {
@@ -14,10 +14,9 @@ export function TableHeader({ columns, sortKey, handleChangeSort }: TableHeaderP
     return (
         <div className={tableHeaderStyle}>
             <div className={tableHeaderRowStyle}>
-                {columns.map((column) => {
+                {columns.map((column, index) => {
                     return (
-                        <div className={tableHeaderRowCellStyle}>
-                            <Cell>{column.label}</Cell>
+                        <div key={index} className={tableHeaderRowCellStyle}>
                             {column.sortable && (
                                 <SortButton
                                     sortKey={sortKey}
@@ -25,6 +24,7 @@ export function TableHeader({ columns, sortKey, handleChangeSort }: TableHeaderP
                                     handleChangeSort={handleChangeSort}
                                 />
                             )}
+                            <Cell>{column.label}</Cell>
                         </div>
                     )
                 })}
@@ -41,6 +41,7 @@ const tableHeaderStyle = css`
   border-bottom: 1px solid #ccc;
   padding: 0 5px;
   font-size: 12px;
+  font-weight: bold;
 `;
 
 const tableHeaderRowStyle = css`
@@ -56,6 +57,5 @@ const tableHeaderRowCellStyle = css`
   text-transform: uppercase;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
   flex: 1 1 40%;
 `;
