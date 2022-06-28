@@ -4,7 +4,7 @@ import { Table as ApplicationsTable } from "./Table";
 import { css } from "@emotion/css";
 import { Candidate, SortKeys } from "./types";
 import ApplicationsAPI from "../api/factories/applications-api";
-import Layout from "./Layout";
+import { Layout } from "./Layout";
 
 const tableColumns: { label: string, key: SortKeys, sortable: boolean }[] = [
     { label: "Name", key: "name", sortable: false },

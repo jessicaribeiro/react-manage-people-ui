@@ -6,7 +6,7 @@ type LayoutProps = {
     children: React.ReactNode;
 }
 
-function Layout({ children }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
     return (
         <div className={layoutStyle}>
             <div className={layoutHeaderStyle}>
@@ -17,8 +17,6 @@ function Layout({ children }: LayoutProps) {
         </div>
     );
 }
-
-export default Layout;
 
 const layoutStyle = css`
   display: block;
