@@ -1,19 +1,18 @@
 import React from 'react';
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 
 type CellProps = {
     children: React.ReactNode;
+    className?: string;
 }
 
-function Cell({ children }: CellProps) {
+export function Cell({ children, className }: CellProps) {
     return (
-        <div className={cellStyle}>
+        <div className={cx(cellStyle, className)}>
             {children}
         </div>
     );
 }
-
-export default Cell;
 
 const cellStyle = css`
   display: flex;
