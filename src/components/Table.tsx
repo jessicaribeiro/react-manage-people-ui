@@ -175,7 +175,8 @@ export function Table({ columns, candidates }: TableProps) {
 
         return (
             <div className={filtersStyle}>
-                <input type="text" onChange={(e) => handleFilterChange(e.target.value, FiltersEnum.Name)}></input>
+                <input type="text" className={inputStyle} placeholder="Search by name..."
+                       onChange={(e) => handleFilterChange(e.target.value, FiltersEnum.Name)}></input>
                 <Filter
                     label="Status"
                     filterValue={filteredStatus}
@@ -228,6 +229,15 @@ const tableBodyStyle = css`
 
 const filtersStyle = css`
   display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+`;
+
+const inputStyle = css`
+  width: 250px;
+  border: 2px solid rgb(144, 202, 249);
+  border-radius: 5px;
+  height: 20px;
 `;
 
 
