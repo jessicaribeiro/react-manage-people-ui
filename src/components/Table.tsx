@@ -29,22 +29,43 @@ export function Table({ columns, candidates }: TableProps) {
     const [allCandidates, setAllCandidates] = useState<Candidate[]>(candidates);
 
     useEffect(() => {
-        // console.log('searchParams', searchParams.get("sortKey"));
-
+        // Obtain sort query parameters
         const sortKeyOnQuery = searchParams.get("sortKey");
         const sortOrderOnQuery = searchParams.get("sortOrder");
 
+        // Obtain filter query parameters
+        const filterNameOnQuery = searchParams.get("name");
+        const filterPositionOnQuery = searchParams.get("position");
+        const filterStatusOnQuery = searchParams.get("status");
+
+        // If sort search parameters are already defined on URL, initialize its state
         if (sortKeyOnQuery) {
+            // Assign type to string
             const sortByKey = (sortKeyOnQuery as SortKeys);
             const sortByOrder = (sortOrderOnQuery as SortOrder);
             setSortOrder(sortByOrder);
             setSortKey(sortByKey);
         }
-    }, [searchParams])
+
+        // If filter search parameters are already defined on URL, initialize its state
+        if (filterNameOnQuery) {
+            setFilteredName(filterNameOnQuery);
+        }
+
+        if (filterPositionOnQuery) {
+            setFilteredPosition(filterPositionOnQuery);
+        }
+
+        if (filterStatusOnQuery) {
+            setFilteredStatus(filterStatusOnQuery);
+        }
+
+    }, [searchParams]);
 
     useEffect(() => {
         let filteredData = candidates;
 
+        // Filter data
         if (filteredStatus) {
             filteredData = filteredData.filter((item) => item.status === filteredStatus);
         }
@@ -88,10 +109,14 @@ export function Table({ columns, candidates }: TableProps) {
     const handleChangeSort = (key: SortKeys) => {
         const order = sortOrder === Sort.Ascending ? Sort.Descending : Sort.Ascending;
 
+        // Save sort selected
         setSortOrder(order);
         setSortKey(key);
 
-        setSearchParams({ ['sortKey']: key, ['sortOrder']: order })
+        // Save sort details on search query parameters
+        searchParams.set('sortKey', key);
+        searchParams.set('sortOrder', order);
+        setSearchParams(searchParams);
     }
 
     // Pagination: Get current candidates
@@ -126,7 +151,6 @@ export function Table({ columns, candidates }: TableProps) {
             );
         }
 
-
         return (
             <div className={tableBodyStyle}>
                 {currentCandidates?.map((candidate) => (
@@ -138,15 +162,22 @@ export function Table({ columns, candidates }: TableProps) {
     }
 
     const handleFilterChange = (value: string, filter: FiltersEnum) => {
+        // Save filter selected and add it to search query parameters
         switch (filter) {
             case (FiltersEnum.Status):
                 setFilteredStatus(value);
+                searchParams.set('status', value);
+                setSearchParams(searchParams);
                 break;
             case (FiltersEnum.Position):
                 setFilteredPosition(value);
+                searchParams.set('position', value);
+                setSearchParams(searchParams);
                 break;
             case (FiltersEnum.Name):
                 setFilteredName(value);
+                searchParams.set('name', value);
+                setSearchParams(searchParams);
                 break;
         }
     }
