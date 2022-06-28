@@ -1,4 +1,4 @@
-import { Sort, Status } from "./enums";
+import { Sort } from "./enums";
 
 export type Candidate = {
     id: number;
@@ -8,13 +8,18 @@ export type Candidate = {
     year_of_experience: number;
     position_applied: string;
     application_date: string;
-    status: Status;
+    status: string;
 }
 
 export type Column = {
     label: string;
     key: SortKeys;
     sortable: boolean;
+}
+
+export type FilterType = {
+    label: string;
+    value: string;
 }
 
 export type SortKeys = keyof Candidate;
