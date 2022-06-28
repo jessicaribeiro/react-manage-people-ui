@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { css } from "@emotion/css";
-import Row from "./Row";
+import { Row } from "./Row";
 import { TableHeader } from "./TableHeader";
 import { Pagination } from "./Pagination";
 import { Candidate, Column, SortKeys, SortOrder } from "./types";
@@ -16,6 +16,8 @@ type TableProps = {
 }
 
 export function Table({ columns, candidates }: TableProps) {
+    const [allCandidates, setAllCandidates] = useState<Candidate[]>(candidates);
+
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const [sortKey, setSortKey] = useState<SortKeys>('id');
@@ -26,7 +28,6 @@ export function Table({ columns, candidates }: TableProps) {
     const [filteredPosition, setFilteredPosition] = useState<string | undefined>();
     const [filteredName, setFilteredName] = useState<string | null>();
 
-    const [allCandidates, setAllCandidates] = useState<Candidate[]>(candidates);
 
     useEffect(() => {
         // Obtain sort query parameters
@@ -34,9 +35,9 @@ export function Table({ columns, candidates }: TableProps) {
         const sortOrderOnQuery = searchParams.get("sortOrder");
 
         // Obtain filter query parameters
-        const filterNameOnQuery = searchParams.get("name");
-        const filterPositionOnQuery = searchParams.get("position");
-        const filterStatusOnQuery = searchParams.get("status");
+        const filterNameOnQuery = searchParams.get(FiltersEnum.Name);
+        const filterPositionOnQuery = searchParams.get(FiltersEnum.Position);
+        const filterStatusOnQuery = searchParams.get(FiltersEnum.Status);
 
         // If sort search parameters are already defined on URL, initialize its state
         if (sortKeyOnQuery) {
@@ -153,12 +154,27 @@ export function Table({ columns, candidates }: TableProps) {
 
         return (
             <div className={tableBodyStyle}>
-                {currentCandidates?.map((candidate) => (
-                    <Row candidate={candidate} />
+                {currentCandidates?.map((candidate, index) => (
+                    <Row key={index} candidate={candidate} />
                 ))}
             </div>
         )
 
+    }
+
+    const clearFilter = (filter: FiltersEnum) => {
+        searchParams.delete(filter);
+        setSearchParams(searchParams);
+
+        if (FiltersEnum.Status) {
+            setFilteredStatus(undefined);
+        }
+        if (FiltersEnum.Position) {
+            setFilteredPosition(undefined);
+        }
+        if (FiltersEnum.Name) {
+            setFilteredName(undefined);
+        }
     }
 
     const handleFilterChange = (value: string, filter: FiltersEnum) => {
@@ -166,17 +182,17 @@ export function Table({ columns, candidates }: TableProps) {
         switch (filter) {
             case (FiltersEnum.Status):
                 setFilteredStatus(value);
-                searchParams.set('status', value);
+                searchParams.set(FiltersEnum.Status, value);
                 setSearchParams(searchParams);
                 break;
             case (FiltersEnum.Position):
                 setFilteredPosition(value);
-                searchParams.set('position', value);
+                searchParams.set(FiltersEnum.Position, value);
                 setSearchParams(searchParams);
                 break;
             case (FiltersEnum.Name):
                 setFilteredName(value);
-                searchParams.set('name', value);
+                searchParams.set(FiltersEnum.Name, value);
                 setSearchParams(searchParams);
                 break;
         }
@@ -213,14 +229,14 @@ export function Table({ columns, candidates }: TableProps) {
                     filterValue={filteredStatus}
                     handleOnChange={(value: string) => handleFilterChange(value, FiltersEnum.Status)}
                     options={allStatusOptions}
-                    clearFilter={() => setFilteredStatus(undefined)}
+                    clearFilter={() => clearFilter(FiltersEnum.Status)}
                 />
                 <Filter
                     label="Position"
                     filterValue={filteredPosition}
                     handleOnChange={(value: string) => handleFilterChange(value, FiltersEnum.Position)}
                     options={allPositionsOptions}
-                    clearFilter={() => setFilteredPosition(undefined)}
+                    clearFilter={() => clearFilter(FiltersEnum.Position)}
                 />
             </div>
         )
@@ -241,7 +257,6 @@ export function Table({ columns, candidates }: TableProps) {
     );
 }
 
-
 const tableStyle = css`
   display: flex;
   flex-direction: column;
@@ -253,7 +268,7 @@ const tableStyle = css`
 const tableBodyStyle = css`
   display: flex;
   flex-direction: column;
-  padding: 0 2px;
+  padding: 0 1px;
   justify-content: flex-start;
   align-items: stretch;
 `;
