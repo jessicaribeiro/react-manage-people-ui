@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { css } from "@emotion/css";
 import Row from "./Row";
 import { TableHeader } from "./TableHeader";
 import { Pagination } from "./Pagination";
 import { Candidate, Column, SortKeys, SortOrder } from "./types";
+import { useSearchParams } from "react-router-dom";
+import { Sort } from "./enums";
 
 const MAX_ITEMS_PER_PAGE = 10;
 
@@ -15,19 +17,35 @@ type TableProps = {
 export function Table({ columns, candidates }: TableProps) {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [sortKey, setSortKey] = useState<SortKeys>('id');
-    const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+    const [sortOrder, setSortOrder] = useState<SortOrder>(Sort.Ascending);
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const sortData = (data: Candidate[], sortByKey: SortKeys, reverseSort: boolean) => {
+    useEffect(() => {
+        // console.log('searchParams', searchParams.get("sortKey"));
+
+        const sortKeyOnQuery = searchParams.get("sortKey");
+        const sortOrderOnQuery = searchParams.get("sortOrder");
+
+        if (sortKeyOnQuery) {
+            const sortByKey = (sortKeyOnQuery as SortKeys);
+            const sortByOrder = (sortOrderOnQuery as SortOrder);
+            setSortOrder(sortByOrder);
+            setSortKey(sortByKey);
+        }
+    }, [searchParams])
+
+
+    const sortData = (data: Candidate[], sortByKey: SortKeys, sortByOrder: SortOrder) => {
         if (!sortByKey) {
             return data;
         }
 
         // Sort by any column in the table
         const dataSorted = data.sort((a, b) => {
-            return a[sortByKey] > b[sortByKey] ? 1 : -1;
+            return a[sortByKey] < b[sortByKey] ? 1 : -1;
         })
 
-        if (reverseSort) {
+        if (sortByOrder === Sort.Descending) {
             dataSorted.reverse();
         }
 
@@ -39,17 +57,19 @@ export function Table({ columns, candidates }: TableProps) {
     // If we pass the same properties we want to memorize and do a quick return the result of the sorting function
     const sortedData = useCallback(
         () => {
-            const reverseSort = sortOrder === 'desc';
-
-            return candidates ? sortData(candidates, sortKey, reverseSort) : [];
+            return sortData(candidates, sortKey, sortOrder);
         },
         [candidates, sortKey, sortOrder]
     );
 
 
     const handleChangeSort = (key: SortKeys) => {
+        const order = sortOrder === Sort.Ascending ? Sort.Descending : Sort.Ascending;
+
+        setSortOrder(order);
         setSortKey(key);
-        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+
+        setSearchParams({ ['sortKey']: key, ['sortOrder']: order })
     }
 
     // Pagination: Get current candidates
@@ -65,12 +85,16 @@ export function Table({ columns, candidates }: TableProps) {
 
     const renderTableHeader = () => {
         return (
-            <TableHeader columns={columns} sortOrder={sortOrder} sortKey={sortKey} handleChangeSort={handleChangeSort}/>
+            <TableHeader
+                columns={columns}
+                sortKey={sortKey}
+                handleChangeSort={handleChangeSort}
+            />
         )
     }
 
     const renderTableBody = () => {
-        if(!candidates) {
+        if (!candidates) {
             return null;
         }
 
