@@ -7,11 +7,10 @@ import { SortButton } from "./SortButton";
 type TableHeaderProps = {
     columns: Column[];
     sortKey: SortKeys;
-    sortOrder: SortOrder;
     handleChangeSort: (key: SortKeys) => void;
 }
 
-export function TableHeader({ columns, sortKey, sortOrder, handleChangeSort }: TableHeaderProps) {
+export function TableHeader({ columns, sortKey, handleChangeSort }: TableHeaderProps) {
     return (
         <div className={tableHeaderStyle}>
             <div className={tableHeaderRowStyle}>
@@ -21,7 +20,6 @@ export function TableHeader({ columns, sortKey, sortOrder, handleChangeSort }: T
                             <Cell>{column.label}</Cell>
                             {column.sortable && (
                                 <SortButton
-                                    sortOrder={sortOrder}
                                     sortKey={sortKey}
                                     columnKey={column.key}
                                     handleChangeSort={handleChangeSort}

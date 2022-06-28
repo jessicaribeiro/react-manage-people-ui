@@ -1,19 +1,16 @@
 import React from 'react';
-import { SortKeys, SortOrder } from "./types";
-import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
+import { SortKeys } from "./types";
+import SortIcon from '@mui/icons-material/Sort';
 import { css } from "@emotion/css";
 
 type SortButtonProps = {
-    sortOrder: SortOrder,
     sortKey: SortKeys,
     columnKey: SortKeys,
     handleChangeSort: (key: SortKeys) => void;
 }
 
-export function SortButton({ sortKey, sortOrder, columnKey, handleChangeSort }: SortButtonProps) {
-
-    const sortIcon = (sortOrder === "desc" && sortKey === columnKey) ? <ArrowDropDownRoundedIcon /> : <ArrowDropUpRoundedIcon />;
+export function SortButton({ columnKey, handleChangeSort }: SortButtonProps) {
+    const sortIcon = <SortIcon fontSize="small"/>;
 
     return (
         <button
