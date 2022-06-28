@@ -1,4 +1,4 @@
-import { Status } from "./enums";
+import { Sort, Status } from "./enums";
 
 export type Candidate = {
     id: number;
@@ -19,4 +19,4 @@ export type Column = {
 
 export type SortKeys = keyof Candidate;
 
-export type SortOrder = 'asc' | 'desc';
+export type SortOrder = Sort.Ascending | Sort.Descending;
