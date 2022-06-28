@@ -11,11 +11,13 @@ type FilterProps = {
 }
 
 export function Filter({ label, filterValue, handleOnChange, options, clearFilter }: FilterProps) {
+    const value = filterValue === undefined ? "default" : filterValue;
+
     return (
         <Dropdown
             label={label}
             options={options}
-            value={filterValue}
+            value={value}
             handleOnChange={handleOnChange}
             clearFilter={clearFilter}
         />

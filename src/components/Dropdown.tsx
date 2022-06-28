@@ -5,7 +5,7 @@ import { css } from "@emotion/css";
 type DropdownProps = {
     label: string;
     options: FilterType[];
-    value: string | undefined;
+    value: string;
     handleOnChange: (value: string) => void;
     clearFilter: () => void;
 }
@@ -19,9 +19,9 @@ export function Dropdown({ label, options, value, handleOnChange, clearFilter }:
     return (
         <div className={dropdownStyle}>
             <select value={value} onChange={onChange} className={selectStyle}>
-                <option selected={value === undefined} disabled>{label}</option>
-                {options.map((option: FilterType) => (
-                    <option value={option.value}>{option.label}</option>
+                <option value="default" disabled>{label}</option>
+                {options.map((option: FilterType, index) => (
+                    <option key={index} value={option.value}>{option.label}</option>
                 ))}
             </select>
             <button onClick={clearFilter} className={buttonStyle}>x</button>
@@ -37,6 +37,8 @@ const selectStyle = css`
   width: 150px;
   border: 2px solid rgb(144, 202, 249);
   border-right: none;
+  outline: none;
+  border-radius: 2px;
 
   &:hover {
     cursor: pointer;
@@ -46,10 +48,10 @@ const selectStyle = css`
 const buttonStyle = css`
   border: 2px solid rgb(144, 202, 249);
   background-color: transparent;
-  border-left: none;
   padding-left: 10px;
   padding-right: 10px;
   color: gray;
+  border-radius: 2px;
 
   &:hover {
     cursor: pointer;
