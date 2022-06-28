@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown } from "./Dropdown";
-import { FilterType } from './types';
+import { FilterType } from '../types/types';
 
 type FilterProps = {
     label: string;

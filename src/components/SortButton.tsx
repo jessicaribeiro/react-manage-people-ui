@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortKeys } from "./types";
+import { SortKeys } from "../types/types";
 import SortIcon from '@mui/icons-material/Sort';
 import { css } from "@emotion/css";
 

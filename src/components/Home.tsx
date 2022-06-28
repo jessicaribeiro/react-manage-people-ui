@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress } from "@mui/material";
 import { Table as ApplicationsTable } from "./Table";
 import { css } from "@emotion/css";
-import { Candidate, SortKeys } from "./types";
 import ApplicationsAPI from "../api/factories/applications-api";
 import { Layout } from "./Layout";
+import { Candidate, SortKeys } from "../types/types";
 
 const tableColumns: { label: string, key: SortKeys, sortable: boolean }[] = [
     { label: "Name", key: "name", sortable: false },

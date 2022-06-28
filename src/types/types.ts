@@ -1,4 +1,4 @@
-import { Sort } from "./enums";
+import { Sort } from "../enums/enums";
 
 export type Candidate = {
     id: number;

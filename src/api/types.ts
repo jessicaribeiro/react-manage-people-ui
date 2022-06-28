@@ -1,4 +1,4 @@
-import { Candidate } from "../components/types";
+import { Candidate } from "../types/types";
 
 export type CandidatesResponse = {
     success: boolean;

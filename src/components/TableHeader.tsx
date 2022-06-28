@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from "@emotion/css";
-import { Column, SortKeys } from './types';
+import { Column, SortKeys } from '../types/types';
 import { Cell } from "./Cell";
 import { SortButton } from "./SortButton";
 

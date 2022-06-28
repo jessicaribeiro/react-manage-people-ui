@@ -3,12 +3,12 @@ import { css } from "@emotion/css";
 import { Row } from "./Row";
 import { TableHeader } from "./TableHeader";
 import { Pagination } from "./Pagination";
-import { Candidate, Column, SortKeys, SortOrder } from "./types";
+import { Candidate, Column, SortKeys, SortOrder } from "../types/types";
 import { useSearchParams } from "react-router-dom";
-import { FiltersEnum, Sort } from "./enums";
+import { FiltersEnum, Sort } from "../enums/enums";
 import { Filter } from "./Filter";
 
-const MAX_ITEMS_PER_PAGE = 10;
+const MAX_ITEMS_PER_PAGE = 15;
 
 type TableProps = {
     candidates: Candidate[];
