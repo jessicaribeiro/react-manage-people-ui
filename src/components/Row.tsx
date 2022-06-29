@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from "@emotion/css";
 import { Candidate } from "../types/types";
 import { Cell } from "./Cell";
-import moment from "moment";
 
 type RowProps = {
     candidate: Candidate;
