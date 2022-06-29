@@ -12,28 +12,14 @@ export function Row({ candidate }: RowProps) {
     return (
         <div className={rowStyle}>
             {Object.entries(candidate).map(([key, value]) => {
+
+                // do not render "id" column
                 if (key === "id") {
                     return null;
                 }
 
-                // Convert date given to years using moment
-                if (key === "birth_date") {
-                    const years = moment().diff(value, 'years',false);
-                    return <Cell key={key}>{years}</Cell>
-                }
-
-                // Format date to day/month/year
-                if (key === "application_date") {
-                    const date = moment(value).format('DD/MM/YYYY');
-                    return <Cell key={key}>{date}</Cell>
-                }
-
-                if (key === "status") {
-                    return <Cell className={capitalizeStyle} key={key}>{value}</Cell>
-                }
-
                 return (
-                    <Cell key={key}>{value}</Cell>
+                    <Cell key={key} columnId={key} value={value} />
                 )
             })
             }
@@ -54,6 +40,3 @@ const rowStyle = css`
   }
 `;
 
-const capitalizeStyle = css`
-  text-transform: capitalize;
-`;

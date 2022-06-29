@@ -10,7 +10,7 @@ type TableHeaderProps = {
     handleChangeSort: (key: SortKeys) => void;
 }
 
-export function TableHeader({ columns, sortKey, handleChangeSort }: TableHeaderProps) {
+export function TableHeader({ columns, handleChangeSort }: TableHeaderProps) {
     return (
         <div className={tableHeaderStyle}>
             <div className={tableHeaderRowStyle}>
@@ -19,12 +19,11 @@ export function TableHeader({ columns, sortKey, handleChangeSort }: TableHeaderP
                         <div key={index} className={tableHeaderRowCellStyle}>
                             {column.sortable && (
                                 <SortButton
-                                    sortKey={sortKey}
                                     columnKey={column.key}
                                     handleChangeSort={handleChangeSort}
                                 />
                             )}
-                            <Cell>{column.label}</Cell>
+                            <Cell value={column.label} />
                         </div>
                     )
                 })}
