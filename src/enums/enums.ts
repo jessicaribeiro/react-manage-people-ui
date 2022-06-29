@@ -1,6 +1,6 @@
 export enum Sort {
-    Descending = "descending",
-    Ascending = "ascending"
+    Descending = "desc",
+    Ascending = "asc"
 }
 
 export enum FiltersEnum {
