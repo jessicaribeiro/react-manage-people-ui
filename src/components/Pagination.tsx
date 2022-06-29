@@ -18,7 +18,7 @@ export function Pagination({ candidatesPerPage, totalCandidates, currentPage, ha
     }
 
     return (
-        <div className={paginationRootStyle}>
+        <div className={paginationRootStyle} data-testid="pagination">
             <ul className={paginationStyle}>
                 {pageNumbers.map(number => (
                     <li key={number}>
@@ -38,7 +38,6 @@ export function Pagination({ candidatesPerPage, totalCandidates, currentPage, ha
 
 const paginationRootStyle = css`
   align-self: center;
-  margin-top: 30px;
 `;
 
 const paginationStyle = css`

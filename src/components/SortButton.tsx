@@ -4,7 +4,6 @@ import SortIcon from '@mui/icons-material/Sort';
 import { css } from "@emotion/css";
 
 type SortButtonProps = {
-    sortKey: SortKeys,
     columnKey: SortKeys,
     handleChangeSort: (key: SortKeys) => void;
 }
@@ -16,6 +15,7 @@ export function SortButton({ columnKey, handleChangeSort }: SortButtonProps) {
         <button
             onClick={() => handleChangeSort(columnKey)}
             className={buttonStyle}
+            data-testid={`sort-by-${columnKey}`}
         >
             {sortIcon}
         </button>
