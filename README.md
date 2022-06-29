@@ -1,46 +1,47 @@
-# Getting Started with Create React App
+# :busts_in_silhouette: Personio-ui
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project goal is to display and manage all the relevant candidate information.
+The data is obtained from [Personio API](https://personio-fe-test.herokuapp.com/api/v1/candidates), and allows recruiters to see a list of candidates, filter this list by candidate Name, Status and Position, and sort the data by Years of experience, Position applied and Applied date. 
+The filters and sort selected are saved on the URL, in order to share the saved filters.
 
-## Available Scripts
+## Project Set-up
+For security reasons and to avoid exposing sensitive data, the REACT_APP_BASE_URL_DOMAIN is set in a .env file, so to run the project locally you have to create the .env file and set the values as follows:
 
-In the project directory, you can run:
+```bash
+REACT_APP_BASE_URL_DOMAIN=http://personio-fe-test.herokuapp.com 
+```
 
-### `npm start`
+## Steps to run Locally
+1. Clone repo to local machine 
+2. Run `npm install` to install dependencies
+3. Create `.env` file on the root folder and add values for BASE_API_DOMAIN
+4. Run `npm start`
+5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## To run Cypress tests
+1. Run `npm cypress:open`. It will launch the cypress app (check https://www.cypress.io/ for more details)
+2. Select E2E testing
+3. Start testting in Chrome
+4. Select `applications.cy.ts` spec to open and run tests
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Tech stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- HTTP Client: [Axios](https://axios-http.com/)
+- JS Framework : [React](https://reactjs.org/)
+- E2E Test: [Cypress](https://www.cypress.io/)
+- Material UI icons: [Material UI](https://mui.com/material-ui/material-icons/)
+- MomentJS: [MomentJS](https://momentjs.com/)
+- Typescript: [Typescript](https://www.typescriptlang.org/)
+- Emotion CSS: [Emotion](https://emotion.sh/docs/introduction)
+- React Router: [Router](https://reactrouter.com/)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Improvements
+- Change pagination strategy to be a infinity scroll 
+    - Use InterceptorAPI to get when last object is on screen to trigger nextPage 
+    - Use React Virtual library to virtualize list 
+- Handle errors
+- Improve UI 
+- Improve API to limit the data returned, instead off returning all the candidates and then build the pagination component 
