@@ -3,11 +3,7 @@ import { CandidatesResponse } from "../types";
 
 // Get data from api
 const getAllCandidates = async () => {
-    const response = await apiClient.get<CandidatesResponse>('/api/v1/candidates', {
-        params: {
-            limit: 10,
-        }
-    });
+    const response = await apiClient.get<CandidatesResponse>('/api/v1/candidates');
 
     return response.data;
 };
