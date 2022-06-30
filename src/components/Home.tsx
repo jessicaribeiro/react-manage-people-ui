@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table as ApplicationsTable } from "./Table";
 import ApplicationsAPI from "../api/factories/applications-api";
 import { Layout } from "./Layout";
@@ -23,6 +23,7 @@ const tableColumns: { label: string, key: SortKeys, sortable: boolean }[] = [
 
 export function Home() {
     const [allCandidates, setAllCandidates] = useState<Candidate[]>([]);
+    const [dataSorted, setDataSorted] = useState<Candidate[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
 
@@ -36,6 +37,8 @@ export function Home() {
     const [filteredPosition, setFilteredPosition] = useState<string | undefined>();
     const [filteredName, setFilteredName] = useState<string | undefined>();
     const [filteredCandidates, setFilteredCandidates] = useState<Candidate[]>([]);
+
+    const [isMounted, setIsMounted] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchCandidates = async () => {
@@ -51,11 +54,13 @@ export function Home() {
                 setHasError(true);
             }
 
+            setIsMounted(true);
             setIsLoading(false);
         };
 
         fetchCandidates();
     }, []);
+
 
 
     useEffect(() => {
@@ -68,6 +73,8 @@ export function Home() {
         const filterPositionOnQuery = searchParams.get(FiltersEnum.Position);
         const filterStatusOnQuery = searchParams.get(FiltersEnum.Status);
 
+        let filteredData = allCandidates;
+
         // If sort search parameters are already defined on URL, initialize its state
         if (sortKeyOnQuery) {
             // Assign type to string
@@ -77,20 +84,26 @@ export function Home() {
             setSortKey(sortByKey);
         }
 
+
         // If filter search parameters are already defined on URL, initialize its state
         if (filterNameOnQuery) {
             setFilteredName(filterNameOnQuery);
+            filteredData = filteredData.filter((item) => item.name.toLowerCase().includes(filterNameOnQuery.toLowerCase()));
         }
 
         if (filterPositionOnQuery) {
             setFilteredPosition(filterPositionOnQuery);
+            filteredData = filteredData.filter((item) => item.position_applied.toLowerCase() === filterPositionOnQuery);
         }
 
         if (filterStatusOnQuery) {
             setFilteredStatus(filterStatusOnQuery);
+            filteredData = filteredData.filter((item) => item.status === filterStatusOnQuery);
         }
 
-    }, [searchParams]);
+        setFilteredCandidates(filteredData);
+
+    }, [searchParams, isMounted]);
 
     useEffect(() => {
         let filteredData = allCandidates;
@@ -107,7 +120,13 @@ export function Home() {
         }
 
         setFilteredCandidates(filteredData);
-    }, [filteredStatus, filteredPosition, filteredName])
+    }, [filteredStatus, filteredPosition, filteredName]);
+
+
+    useEffect(() => {
+        sortData(filteredCandidates, sortKey, sortOrder);
+    }, [filteredCandidates, sortKey, sortOrder])
+
 
     const sortData = (data: Candidate[], sortByKey: SortKeys, sortByOrder: SortOrder) => {
         if (!sortByKey || !data) {
@@ -115,25 +134,16 @@ export function Home() {
         }
 
         // Sort by any column in the table
-        const dataSorted = data.sort((a, b) => {
+        const dataSort = data.sort((a, b) => {
             return a[sortByKey] < b[sortByKey] ? 1 : -1;
         })
 
         if (sortByOrder === Sort.Descending) {
-            dataSorted.reverse();
+            dataSort.reverse();
         }
 
-        return dataSorted;
+        setDataSorted(dataSort);
     }
-
-    // Sortable function
-    // If we pass the same properties we want to memorize and do a quick return the result of the sorting function
-    const sortedData = useCallback(
-        () => {
-            return filteredCandidates ? sortData(filteredCandidates, sortKey, sortOrder) : null;
-        },
-        [filteredCandidates, sortKey, sortOrder]
-    );
 
     const handleChangeSort = (key: SortKeys) => {
         const order = sortOrder === Sort.Ascending ? Sort.Descending : Sort.Ascending;
@@ -148,11 +158,11 @@ export function Home() {
         setSearchParams(searchParams);
     }
 
+
     // Pagination: Get current candidates
     const candidatesPerPage = MAX_ITEMS_PER_PAGE;
     const indexOfLastCandidate = currentPage * candidatesPerPage;
     const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage;
-    const dataSorted = sortedData();
     const currentCandidates = dataSorted ? dataSorted.slice(indexOfFirstCandidate, indexOfLastCandidate) : [];
 
     // Method to change the current page
@@ -195,6 +205,7 @@ export function Home() {
             />
         )
     }
+
 
     const renderBody = () => {
         return (
