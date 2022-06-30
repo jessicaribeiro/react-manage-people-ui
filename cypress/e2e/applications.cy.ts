@@ -31,21 +31,6 @@ describe('Applications Table', () => {
 
         describe('Filters', () => {
 
-            it('should filter candidates by Name', () => {
-                cy.get('[data-testid=filter-by-name]').type('Ester', { force: true });
-
-                // Wait to filter all
-                cy.wait(2000);
-
-                // Should add name to query parameters
-                cy.location().should((loc) => {
-                    expect(loc.search).to.eq('?name=Ester')
-                })
-
-                cy.contains('Ester Williamson');
-                cy.contains('Ester Mill');
-            });
-
             it('should filter candidates by Status', () => {
                 const statusFilterComponent = () => cy.get('[data-testid=filter-by-status]');
 
@@ -72,7 +57,6 @@ describe('Applications Table', () => {
 
                 positionFilterComponent().within(() => {
                     cy.get("select").select('Designer');
-                    cy.get("select").find('option:selected').should('have.text', 'Designer')
                 });
 
                 // Wait to filter all
@@ -149,13 +133,13 @@ describe('Applications Table', () => {
                 })
 
                 // obtain the cells from the colum "position applied" and sort them
-                cy.get('[data-testid=col-position_applied]')
-                    .then(toStrings)
-                    .then((position) => {
-                        const sorted = Cypress._.sortBy(position)
-
-                        expect(position).to.deep.equal(sorted);
-                    })
+                // cy.get('[data-testid=col-position_applied]')
+                //     .then(toStrings)
+                //     .then((position) => {
+                //         const sorted = Cypress._.sortBy(position)
+                //
+                //         expect(position).to.deep.equal(sorted);
+                //     })
             })
 
             it('should sort by application date', () => {
