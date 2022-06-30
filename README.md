@@ -20,9 +20,9 @@ REACT_APP_BASE_URL_DOMAIN=http://personio-fe-test.herokuapp.com
 5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
 ## To run Cypress tests
-1. Run `npm cypress:open`. It will launch the cypress app (check https://www.cypress.io/ for more details)
+1. Run `npm run cypress:open`. It will launch the cypress app (check https://www.cypress.io/ for more details)
 2. Select E2E testing
-3. Start testting in Chrome
+3. Start testing in Chrome
 4. Select `applications.cy.ts` spec to open and run tests
 
 
