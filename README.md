@@ -1,4 +1,4 @@
-# :busts_in_silhouette: Personio-ui
+# Personio-ui
 
 The project goal is to display and manage all the relevant candidate information.
 The data is obtained from [Personio API](https://personio-fe-test.herokuapp.com/api/v1/candidates), and allows recruiters to see a list of candidates, filter this list by candidate Name, Status and Position, and sort the data by Years of experience, Position applied and Applied date. 
@@ -46,3 +46,4 @@ REACT_APP_BASE_URL_DOMAIN=http://personio-fe-test.herokuapp.com
 - Handle errors
 - Improve UI 
 - Improve API to limit the data returned, instead off returning all the candidates and then build the pagination component 
+- Improve flaky tests
