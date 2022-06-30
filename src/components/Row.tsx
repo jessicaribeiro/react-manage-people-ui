@@ -9,7 +9,7 @@ type RowProps = {
 
 export function Row({ candidate }: RowProps) {
     return (
-        <div className={rowStyle}>
+        <tr className={rowStyle}>
             {Object.entries(candidate).map(([key, value]) => {
 
                 // do not render "id" column
@@ -18,20 +18,15 @@ export function Row({ candidate }: RowProps) {
                 }
 
                 return (
-                    <Cell key={key} columnId={key} value={value} />
+                    <Cell key={key} columnId={key} value={value} isHeader={false}/>
                 )
             })
             }
-        </div>
+        </tr>
     );
 }
 
 const rowStyle = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex: 0 0 auto;
   border-bottom: 1px solid #eee;
 
   &:hover {

@@ -29,42 +29,44 @@ export function Table({ columns, candidates, sortKey, handleChangeSort }: TableP
 
         if (candidates.length === 0) {
             return (
-                <span className={emptyStateStyle}>There is no available data to display</span>
+                <tbody>
+                <tr>
+                    <td>
+                        <span className={emptyStateStyle}>There is no available data to display</span>
+                    </td>
+                </tr>
+                </tbody>
             );
         }
 
         return (
-            <div className={tableBodyStyle} data-testid="table-candidates">
-                {candidates?.map((candidate, index) => (
-                    <Row key={index} candidate={candidate} />
-                ))}
-            </div>
+            <tbody className={tableBodyStyle} data-testid="table-candidates">
+            {candidates?.map((candidate, index) => (
+                <Row key={index} candidate={candidate} />
+            ))}
+            </tbody>
         )
 
     }
 
     return (
-        <div className={tableStyle}>
+        <table className={tableStyle}>
             {renderTableHeader()}
             {renderTableBody()}
-        </div>
+        </table>
     );
 }
 
 const tableStyle = css`
-  display: flex;
-  flex-direction: column;
   position: relative;
   width: 96vw;
   margin-bottom: 40px;
+  border-spacing: 0;
+  border-collapse: collapse;
 `;
 
 const tableBodyStyle = css`
-  display: flex;
-  flex-direction: column;
   padding: 0 1px;
-  justify-content: flex-start;
-  align-items: stretch;
 `;
 
 const emptyStateStyle = css`

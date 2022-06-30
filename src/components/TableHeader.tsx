@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from "@emotion/css";
 import { Column, SortKeys } from '../types/types';
 import { Cell } from "./Cell";
-import { SortButton } from "./SortButton";
 
 type TableHeaderProps = {
     columns: Column[];
@@ -12,29 +11,26 @@ type TableHeaderProps = {
 
 export function TableHeader({ columns, handleChangeSort }: TableHeaderProps) {
     return (
-        <div className={tableHeaderStyle}>
-            <div className={tableHeaderRowStyle}>
-                {columns.map((column, index) => {
-                    return (
-                        <div key={index} className={tableHeaderRowCellStyle}>
-                            {column.sortable && (
-                                <SortButton
-                                    columnKey={column.key}
-                                    handleChangeSort={handleChangeSort}
-                                />
-                            )}
-                            <Cell value={column.label} />
-                        </div>
-                    )
-                })}
-            </div>
-        </div>
+        <thead className={tableHeaderStyle}>
+        <tr className={tableHeaderRowCellStyle}>
+            {columns.map((column, index) => {
+                return (
+                    <Cell
+                        key={index}
+                        isHeader={true}
+                        value={column.label}
+                        sortable={column.sortable}
+                        handleChangeSort={handleChangeSort}
+                        columnKey={column.key}
+                    />
+                )
+            })}
+        </tr>
+        </thead>
     )
 }
 
 const tableHeaderStyle = css`
-  display: flex;
-  flex: 0 0 auto;
   height: 46px;
   color: black;
   border-bottom: 1px solid #ccc;
@@ -43,18 +39,7 @@ const tableHeaderStyle = css`
   font-weight: bold;
 `;
 
-const tableHeaderRowStyle = css`
-  display: flex;
-  flex: 1 1 auto;
-  text-transform: uppercase;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const tableHeaderRowCellStyle = css`
-  display: flex;
   text-transform: uppercase;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1 1 40%;
+  text-align: left;
 `;

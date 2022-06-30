@@ -26,4 +26,5 @@ const buttonStyle = css`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  padding: 0;
 `;

@@ -1,13 +1,19 @@
 import React from 'react';
 import { css, cx } from "@emotion/css";
 import moment from "moment";
+import { SortButton } from "./SortButton";
+import { SortKeys } from '../types/types';
 
 type CellProps = {
     columnId?: string;
     value: string | number;
+    sortable?: boolean;
+    handleChangeSort?: (key: SortKeys) => void;
+    columnKey?: SortKeys;
+    isHeader: boolean;
 }
 
-export function Cell({ columnId, value }: CellProps) {
+export function Cell({ columnId, value, sortable, handleChangeSort, columnKey, isHeader }: CellProps) {
 
     let cellValue = value;
     let className;
@@ -26,26 +32,45 @@ export function Cell({ columnId, value }: CellProps) {
         cellValue = value;
     }
 
+    if (isHeader) {
+        return (
+            <th>
+                <div className={sortableStyle}>
+                    {sortable && handleChangeSort && columnKey && (
+                        <SortButton
+                            columnKey={columnKey}
+                            handleChangeSort={handleChangeSort}
+                        />
+                    )}
+                    {cellValue}
+                </div>
+            </th>
+        )
+    }
+
     return (
-        <div className={cx(cellStyle, className)} data-testid={`col-${columnId}`}>
+        <td className={cx(cellStyle, className)} data-testid={`col-${columnId}`}>
             {cellValue}
-        </div>
+        </td>
     );
 }
 
 const cellStyle = css`
-  display: flex;
+  text-align: left;
   height: 46px;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 10px;
   font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  flex: 1 1 40%;
 `;
 
 const capitalizeStyle = css`
   text-transform: capitalize;
+`;
+
+
+const sortableStyle = css`
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;
