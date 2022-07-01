@@ -15,7 +15,7 @@ REACT_APP_BASE_URL_DOMAIN=http://personio-fe-test.herokuapp.com
 ## Steps to run Locally
 1. Clone repo to local machine 
 2. Run `npm install` to install dependencies
-3. Create `.env` file on the root folder and add values for BASE_API_DOMAIN
+3. Create `.env` file on the root folder and add values for REACT_APP_BASE_URL_DOMAIN
 4. Run `npm start`
 5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
