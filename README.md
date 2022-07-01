@@ -41,7 +41,6 @@ REACT_APP_BASE_URL_DOMAIN=http://personio-fe-test.herokuapp.com
 
 ### Improvements
 - Change pagination strategy to be a infinity scroll 
-    - Use InterceptorAPI to get when last object is on screen to trigger nextPage 
     - Use React Virtual library to virtualize list 
 - Handle errors
 - Improve UI 
