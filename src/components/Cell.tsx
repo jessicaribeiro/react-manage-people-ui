@@ -27,6 +27,9 @@ export function Cell({ columnId, value, sortable, handleChangeSort, columnKey, i
         cellValue = moment(value).format('DD/MM/YYYY');
     }
 
+
+
+
     if (columnId === "status") {
         className = capitalizeStyle;
         cellValue = value;
