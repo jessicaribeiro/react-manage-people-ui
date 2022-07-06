@@ -32,6 +32,8 @@ export function Cell({ columnId, value, sortable, handleChangeSort, columnKey, i
         cellValue = value;
     }
 
+
+
     if (isHeader) {
         return (
             <th>
