@@ -1,7 +1,7 @@
-# Personio-ui
+# Manage People
 
 The project goal is to display and manage all the relevant candidate information.
-The data is obtained from [Personio API](https://personio-fe-test.herokuapp.com/api/v1/candidates), and allows recruiters to see a list of candidates, filter this list by candidate Name, Status and Position, and sort the data by Years of experience, Position applied and Applied date. 
+The data is obtained from [API](https://personio-fe-test.herokuapp.com/api/v1/candidates), and allows recruiters to see a list of candidates, filter this list by candidate Name, Status and Position, and sort the data by Years of experience, Position applied and Applied date. 
 
 The selected filters and sort option are saved on the URL, in order to share the saved filters.
 
